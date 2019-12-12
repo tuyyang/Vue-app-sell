@@ -1,6 +1,6 @@
 # vue-music
 
-> 英语播放器
+> 音乐播放器
 
 ## Build Setup
 
