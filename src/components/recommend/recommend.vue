@@ -2,7 +2,11 @@
   <div class="recommend" ref="recommend">
     <scroll ref="scroll" class="recommend-content" :data="discList">
       <div>
-        <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
+        <div
+          v-if="recommends.length"
+          class="slider-wrapper"
+          ref="sliderWrapper"
+        >
           <slider>
             <div v-for="item in recommends">
               <a :href="item.linkUrl">
@@ -34,12 +38,12 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-import Loading from "base/loading/loading";
-import Scroll from "base/scroll/scroll";
-import Slider from "base/slider/slider";
-import { getRecommend } from "api/recommend";
-import { ERR_OK } from "api/config";
+<script>
+import Slider from 'base/slider/slider'
+import Loading from 'base/loading/loading'
+import Scroll from 'base/scroll/scroll'
+import {getRecommend} from 'api/recommend'
+import {ERR_OK} from 'api/config'
 
 export default {
   data() {
@@ -49,24 +53,24 @@ export default {
     };
   },
   created() {
-    this._getRecommend();
+    this._getRecommend()
 
     setTimeout(() => {
-      this.getDiscList();
+      this.getDiscList()
     }, 1000);
 
-    this.getDiscList();
+    this.getDiscList()
   },
   method: {
     handlePlaylist(playlist) {
-      const bottom = playlist.length > 0 ? "60px" : "";
+      const bottom=playlist.length>0? "60px":"";
 
-      this.$refs.recommend.style.bottom = bottom;
+      this.$refs.recommend.style.bottom=bottom;
       this.$refs.scroll.refresh();
     },
     loadImage() {
-      if (!this.checkloaded) {
-        this.checkloaded = true;
+      if(!this.checkloaded) {
+        this.checkloaded=true;
         this.$refs.scroll.refresh();
       }
     },
@@ -78,15 +82,15 @@ export default {
     },
     _getRecommend() {
       getRecommend().then(res => {
-        if (res.code === ERR_OK) {
-          this.recommends = res.data.slider;
+        if(res.code===ERR_OK) {
+          this.recommends=res.data.slider;
         }
       });
     },
     _getDiscList() {
       getDiscList().then(res => {
-        if (res.code === ERR_OK) {
-          this.discList = res.data.list;
+        if(res.code===ERR_OK) {
+          this.discList=res.data.list;
         }
       });
     }
@@ -102,64 +106,51 @@ export default {
 };
 </script>
 
-<style>
-.recommend {
-  position: fixed;
-  width: 100%;
-  top: 88px;
-  bottom: 0;
-  background-color: #222;
-}
-
-.recommend-content {
-  height: 100%;
-  overflow: hidden;
-}
-
-.slider-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.recommend-list .list-title {
-  height: 65px;
-  line-height: 65px;
-  text-align: center;
-  font-size: 14px;
-  color: #ffcd32;
-}
-.item {
-  display: flex;
-  box-sizing: border-box;
-  align-items: center;
-  padding: 0 20px 20px 20px;
-}
-.item > .icon {
-  flex: 0 0 60px;
-  width: 60px;
-  padding-right: 20px;
-}
-.text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  line-height: 20px;
-  overflow: hidden;
-  font-size: 14px;
-}
-.name {
-  margin-bottom: 10px;
-  color: #fff;
-}
-.desc {
-  color: rgba(255, 255, 255, 0.3);
-}
-.loading-container {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-}
+<style scoped lang="stylus">
+  .recommend
+    position fixed
+    width 100%
+    top 88px
+    bottom 0
+  .recommend-content
+    height 100%
+    overflow hidden
+  .slider-wrapper
+    position relative
+    width 100%
+    overflow hidden
+  .recommend-list
+    .list-title
+      height 65px
+      line-height 65px
+      text-align center
+      font-size $font-size-medium
+      color $color-theme
+    .item
+      display flex
+      box-sizing border-box
+      align-items center
+      padding 0 20px 20px 20px
+      .icon
+        flex 0 0 60px
+        width 60px
+        padding-right 20px
+      .text
+        display flex
+        flex-direction column
+        justify-content center
+        flex 1
+        line-height 20px
+        overflow hidden
+        font-size $font-size-medium
+        .name
+          margin-bottom 10px
+          color $color-text
+        .desc
+          color $color-text-d
+  .loading-container
+    position absolute
+    width 100%
+    top 50%
+    transform translateY(-50%)
 </style>

@@ -5,6 +5,8 @@ import router from './router'
 import fastclick from 'fastclick'
 import VueLazyLoad from 'vue-lazyload'
 
+import 'common/stylus/index.styl'
+
 fastclick.attach(document.body)
 
 Vue.use(VueLazyLoad, {
