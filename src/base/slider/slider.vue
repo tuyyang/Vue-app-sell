@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import BScroll from "better-scroll";
-import { addClass } from "common/js/dom";
+import BScroll from 'better-scroll'
+import {addClass} from 'common/js/dom'
 
 export default {
   props: {
@@ -29,23 +29,23 @@ export default {
   mounted: {},
   methods: {
     _setSliderWidth() {
-      this.children = this.$refs.sliderGroup.children;
+      this.children=this.$refs.sliderGroup.children;
 
-      let width = 0;
-      let sliderWidth = this.$refs.slider.clientWidth;
-      for (let i = 0; i < this.children.length; i++) {
-        let child = this.children[i];
+      let width=0;
+      let sliderWidth=this.$refs.slider.clientWidth;
+      for(let i=0; i<this.children.length; i++) {
+        let child=this.children[i];
         addClass(child, "slider-item");
-        child.style.width = sliderWidth + "px";
-        width += sliderWidth;
+        child.style.width=sliderWidth+"px";
+        width+=sliderWidth;
       }
-      if (this.loop) {
-        width += 2 * sliderWidth;
+      if(this.loop) {
+        width+=2*sliderWidth;
       }
-      this.$refs.sliderGroup.style.width = width + "px";
+      this.$refs.sliderGroup.style.width=width+"px";
     },
     _initSlider() {
-      this.slider = new BScroll(this.$refs.slider, {
+      this.slider=new BScroll(this.$refs.slider, {
         scrollX: true,
         scrollY: false,
         momentum: false,
@@ -60,43 +60,34 @@ export default {
 };
 </script>
 
-<style>
-.slider {
-  min-height: 1px;
-  background-color: #222;
-}
+<style scoped lang="stylus">
+  @import '~common/stylus/variable'
 
-.slider-group {
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.slider-item {
-  float: left;
-  box-sizing: border-box;
-  overflow: hidden;
-  text-align: center;
-}
-
-a {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  width: 100%;
-}
-
-.dots {
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 12px;
-  text-align: center;
-  font-size: 0;
-}
+  .slider
+    min-height 1px
+    background-color #222
+    .slider-group
+      position relative
+      overflow hidden
+      white-space nowrap
+      .slider-item
+        float left
+        box-sizing border-box
+        overflow hidden
+        text-align center
+        a
+          display block
+          width 100%
+          overflow hidden
+          text-decoration none
+        img
+          display block
+          width 100%
+    .dots
+      position absolute
+      right 0
+      left 0
+      bottom 12px
+      text-align center
+      font-size 0
 </style>

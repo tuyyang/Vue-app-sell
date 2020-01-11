@@ -1,6 +1,6 @@
 <template>
   <div class="recommend" ref="recommend">
-    <scroll ref="scroll" class="recommend-content" :data="discList">
+    <scroll ref="scroll" class="recommend-content">
       <div>
         <div
           v-if="recommends.length"
@@ -17,7 +17,7 @@
         </div>
         <div class="recommend-list">
           <h1 class="list-title">热门歌单推荐</h1>
-          <ul>
+          <!-- <ul>
             <li v-for="item in discList" class="item">
               <div class="ico">
                 <img width="60" height="60" v-lazy="item.imgurl" />
@@ -27,12 +27,12 @@
                 <p class="desc" v-html="item.dissname"></p>
               </div>
             </li>
-          </ul>
+          </ul> -->
         </div>
       </div>
-      <div class="loading-container" v-show="!discList.length">
+      <!-- <div class="loading-container" v-show="!discList.length">
         <loading></loading>
-      </div>
+      </div> -->
     </scroll>
     <router-view></router-view>
   </div>
@@ -40,7 +40,7 @@
 
 <script>
 import Slider from 'base/slider/slider'
-import Loading from 'base/loading/loading'
+// import Loading from 'base/loading/loading'
 import Scroll from 'base/scroll/scroll'
 import {getRecommend} from 'api/recommend'
 import {ERR_OK} from 'api/config'
@@ -50,16 +50,16 @@ export default {
     return {
       recommends: [],
       discList: []
-    };
+    }
   },
   created() {
     this._getRecommend()
 
-    setTimeout(() => {
-      this.getDiscList()
-    }, 1000);
+    // setTimeout(() => {
+    //   this.getDiscList()
+    // }, 1000);
 
-    this.getDiscList()
+    // this.getDiscList()
   },
   method: {
     handlePlaylist(playlist) {
@@ -81,18 +81,19 @@ export default {
       this.setDisc(item);
     },
     _getRecommend() {
-      getRecommend().then(res => {
+      getRecommend().then((res) => {
         if(res.code===ERR_OK) {
-          this.recommends=res.data.slider;
+          // console.log(res.data.slider)
+          this.recommends=res.data.slider
         }
-      });
+      })
     },
     _getDiscList() {
       getDiscList().then(res => {
         if(res.code===ERR_OK) {
           this.discList=res.data.list;
         }
-      });
+      })
     }
     // ...mapMutations({
     //   setDisc: "SET_DISC"
@@ -100,8 +101,8 @@ export default {
   },
   components: {
     Slider,
-    Scroll,
-    Loading
+    Scroll
+    // Loading
   }
 };
 </script>
