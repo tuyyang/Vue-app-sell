@@ -43,6 +43,7 @@ import Slider from 'base/slider/slider'
 import Loading from 'base/loading/loading'
 import Scroll from 'base/scroll/scroll'
 import {getRecommend} from 'api/recommend'
+import {getDiscList} from 'api/recommend'
 import {ERR_OK} from 'api/config'
 
 export default {
@@ -50,49 +51,50 @@ export default {
     return {
       recommends: [],
       discList: []
-    };
+    }
   },
   created() {
     this._getRecommend()
+    // this._getDiscList()
 
     setTimeout(() => {
       this.getDiscList()
-    }, 1000);
+    }, 1000)
 
     this.getDiscList()
   },
   method: {
     handlePlaylist(playlist) {
-      const bottom=playlist.length>0? "60px":"";
+      const bottom=playlist.length>0? "60px":""
 
-      this.$refs.recommend.style.bottom=bottom;
-      this.$refs.scroll.refresh();
+      this.$refs.recommend.style.bottom=bottom
+      this.$refs.scroll.refresh()
     },
     loadImage() {
       if(!this.checkloaded) {
-        this.checkloaded=true;
-        this.$refs.scroll.refresh();
+        this.checkloaded=true
+        this.$refs.scroll.refresh()
       }
     },
     selectItem(item) {
       this.$router.push({
         path: `/recommend/${item.dissid}`
-      });
-      this.setDisc(item);
+      })
+      this.setDisc(item)
     },
     _getRecommend() {
       getRecommend().then(res => {
         if(res.code===ERR_OK) {
-          this.recommends=res.data.slider;
+          this.recommends=res.data.slider
         }
-      });
+      })
     },
     _getDiscList() {
       getDiscList().then(res => {
         if(res.code===ERR_OK) {
-          this.discList=res.data.list;
+          this.discList=res.data.list
         }
-      });
+      })
     }
     // ...mapMutations({
     //   setDisc: "SET_DISC"
