@@ -19,13 +19,12 @@
 export default {}
 </script>
 
-<style lang="stylus" scoped>
+<style lang='stylus' scoped>
   @import '~common/stylus/variable'
 
   .tab
     display flex
     height 44px
-    width 100%
     line-height 44px
     font-size $font-size-medium
     .tab-item
@@ -34,7 +33,7 @@ export default {}
       .tab-link
         padding-bottom 5px
         color $color-text-l
-      &.router-link:active
+      &.router-link-active
         .tab-link
           color $color-theme
           border-bottom 2px solid $color-theme
