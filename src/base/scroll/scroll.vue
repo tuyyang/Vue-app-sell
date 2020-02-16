@@ -10,22 +10,26 @@ import BScroll from 'better-scroll'
 export default {
   props: {
     probeType: {
-      type: Nmuber,
+      type: Number,
       default: 1
     },
     click: {
       type: Boolean,
       default: true
     },
+    listenScroll: {
+      type: Boolean,
+      default: false
+    },
     data: {
       type: Array,
       default: null
     }
   },
-  mounted() {
+  mounted () {
     setTimeout(() => {
       this._initScroll()
-    }, 20);
+    }, 20)
   },
   methods: {
     _initScroll () {
@@ -52,7 +56,7 @@ export default {
     scrollToElement () {
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
     }
-  },
+  }
 }
 </script>
 
