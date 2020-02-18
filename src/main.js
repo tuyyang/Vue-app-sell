@@ -5,8 +5,6 @@ import store from './store'
 import VueLazyload from 'vue-lazyload'
 import 'common/stylus/index.styl'
 
-import 'common/stylus/index.styl'
-
 Vue.config.productionTip = false
 
 Vue.use(VueLazyload, {
