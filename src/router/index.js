@@ -15,7 +15,11 @@ const routes = [
     redirect: '/recommend'
   },
   {
+<<<<<<< HEAD
     path: '/',
+=======
+    path: '/recommend',
+>>>>>>> recommend
     name: 'Recommend',
     component: Recommend
   },

@@ -1,6 +1,10 @@
 <template>
   <div class="loading">
+<<<<<<< HEAD
     <img src="./loading.gif" width="24" height="24" />
+=======
+    <img width="24" height="24" scr="./loading.gif" />
+>>>>>>> recommend
     <p class="desc">{{ title }}</p>
   </div>
 </template>
@@ -25,5 +29,9 @@ export default {
     .desc
       line-height 20px
       font-size $font-size-small
+<<<<<<< HEAD
       color $color-text-1
+=======
+      color $color-text-l
+>>>>>>> recommend
 </style>

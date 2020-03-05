@@ -1,6 +1,6 @@
 <template>
   <div class="singer" ref="singer">
-    <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
+    <list-view @select="selectSinger" :data="singers"></list-view>
     <router-view></router-view>
   </div>
 </template>
@@ -12,8 +12,13 @@ import { getSingerList } from 'api/singer'
 import { ERR_OK } from 'api/config'
 import { mapMutations } from 'vuex'
 
+<<<<<<< HEAD
 const HOT_SINGER_LEN = 10
 const HOT_NAME = '热门'
+=======
+const HOT_NAME = '热门'
+const HOT_SINGER_LEN = 10
+>>>>>>> recommend
 
 export default {
   data () {
@@ -35,11 +40,19 @@ export default {
       getSingerList().then((res) => {
         if (res.code === ERR_OK) {
           this.singers = this._normalizeSinger(res.data.list)
+<<<<<<< HEAD
+=======
+          // console.log(this._normalizeSinger(this.singers))
+>>>>>>> recommend
         }
       })
     },
     _normalizeSinger (list) {
+<<<<<<< HEAD
       let map = {
+=======
+      const map = {
+>>>>>>> recommend
         hot: {
           title: HOT_NAME,
           items: []
@@ -48,8 +61,13 @@ export default {
       list.forEach((item, index) => {
         if (index < HOT_SINGER_LEN) {
           map.hot.items.push(new Singer({
+<<<<<<< HEAD
             name: item.Fsinger_name,
             id: item.Fsinger_mid
+=======
+            id: item.Fsinger_mid,
+            name: item.Fsinger_name
+>>>>>>> recommend
           }))
         }
         const key = item.Findex
@@ -60,6 +78,7 @@ export default {
           }
         }
         map[key].items.push(new Singer({
+<<<<<<< HEAD
           name: item.Fsinger_name,
           id: item.Fsinger_mid
         }))
@@ -69,6 +88,16 @@ export default {
       let hot = []
       for (let key in map) {
         let val = map[key]
+=======
+          id: item.Fsinger_mid,
+          name: item.Fsinger_name
+        }))
+      })
+      const ret = []
+      const hot = []
+      for (const key in map) {
+        const val = map[key]
+>>>>>>> recommend
         if (val.title.match(/[a-zA-Z]/)) {
           ret.push(val)
         } else if (val.title === HOT_NAME) {

@@ -1,5 +1,6 @@
 <template>
   <div class="recommend" ref="recommend">
+<<<<<<< HEAD
     推荐
     <div class="recommend-content">
       <div class="slider-wrapper">
@@ -12,28 +13,68 @@
           </div>
         </div>
       </div>
+=======
+    <div class="recommend-content">
+      <div class="slider-wrapper" v-if="recommends.length">
+        <div class="slider-content">
+          <slider>
+            <div v-for="(item, index) in recommends" :key="index">
+              <a :href="item.linkUrl">
+                <img :src="item.picUrl" />
+              </a>
+            </div>
+          </slider>
+          <!-- <div v-for="(item, index) in recommends" :key="index">
+            <a :href="item.linkUrl">
+              <img :src="item.picUrl" />
+              <p>text</p>
+            </a>
+          </div> -->
+        </div>
+      </div>
+      <div class="recommend-list">
+        <h1 class="list-title">热门歌单推荐</h1>
+      </div>
+      <!-- <div class="loading-container" v-show="!discList.length">
+        <loading></loading>
+      </div> -->
+>>>>>>> recommend
     </div>
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+// import Loading from 'base/loading/loading'
+import Slider from 'base/slider/slider'
+>>>>>>> recommend
 import { getRecommend } from 'api/recommend'
 import { ERR_OK } from 'api/config'
 
 export default {
   data () {
     return {
+<<<<<<< HEAD
       recommends: []
     }
   },
   created () {
     this._text()
+=======
+      recommends: [],
+      discList: []
+    }
+  },
+  created () {
+>>>>>>> recommend
     this._getRecommend()
   },
   methods: {
     _getRecommend () {
       getRecommend().then((res) => {
         if (res.code === ERR_OK) {
+<<<<<<< HEAD
           this.recommends = res.data
           console.log('cheng')
         }
@@ -42,6 +83,15 @@ export default {
     _text () {
       console.log('text')
     }
+=======
+          this.recommends = res.data.slider
+        }
+      })
+    }
+  },
+  components: {
+    Slider
+>>>>>>> recommend
   }
 }
 </script>

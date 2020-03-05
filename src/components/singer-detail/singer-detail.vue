@@ -28,7 +28,11 @@ export default {
       'singer'
     ])
   },
+<<<<<<< HEAD
   created() {
+=======
+  created () {
+>>>>>>> recommend
     this._getDetail()
   },
   methods: {
@@ -38,10 +42,17 @@ export default {
         return
       }
       getSingerDetail(this.singer.id).then((res) => {
+<<<<<<< HEAD
         if (res.code === ERR_OK) {
           this.songs = this._normalizeSongs(res.data.list)
           console.log(this.songs)
         }
+=======
+          if (res.code === ERR_OK) {
+            this.songs = this._normalizeSongs(res.data.list)
+            // console.log(this.songs)
+          }
+>>>>>>> recommend
       })
     },
     _normalizeSongs (list) {
@@ -59,7 +70,10 @@ export default {
     MusicList
   }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> recommend
 </script>
 
 <style lang='stylus' scoped>
