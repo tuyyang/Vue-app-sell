@@ -8,11 +8,7 @@ import 'common/stylus/index.styl'
 Vue.config.productionTip = false
 
 Vue.use(VueLazyload, {
-<<<<<<< HEAD
   loading: require('common/image/default.png')
-=======
-  loading:  require('common/image/default.png')
->>>>>>> recommend
 })
 
 new Vue({

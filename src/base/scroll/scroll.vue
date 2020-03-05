@@ -6,12 +6,9 @@
 
 <script>
 import BScroll from 'better-scroll'
-<<<<<<< HEAD
-=======
 
 const DIRECTION_H = 'horizontal'
 const DIRECTION_V = 'vertical'
->>>>>>> recommend
 
 export default {
   props: {
@@ -45,25 +42,6 @@ export default {
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: this.probeType,
         click: this.click
-<<<<<<< HEAD
-      })
-    },
-    disable () {
-      this.scroll && this.scroll.disable()
-    },
-    enable () {
-      this.scroll && this.scroll.enable()
-    },
-    refresh () {
-      this.scroll && this.scroll.refresh()
-    },
-    scrollTo () {
-      this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
-    },
-    scrollToElement () {
-      this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
-    }
-=======
         // eventPassthrough: this.direction === DIRECTION_V ? DIRECTION_H : DIRECTION_V
       })
       
@@ -88,7 +66,6 @@ export default {
   },
   scrollToElement () {
     this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
->>>>>>> recommend
   }
 }
 </script>

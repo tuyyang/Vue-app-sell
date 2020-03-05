@@ -1,19 +1,5 @@
 <template>
   <div class="recommend" ref="recommend">
-<<<<<<< HEAD
-    推荐
-    <div class="recommend-content">
-      <div class="slider-wrapper">
-        <div class="slider-content">
-          <div v-for="(item, index) in recommends" :key="index">
-            <a :href="item.linkUrl">
-              <img :src="item.imgUrl" />
-              <p>text</p>
-            </a>
-          </div>
-        </div>
-      </div>
-=======
     <div class="recommend-content">
       <div class="slider-wrapper" v-if="recommends.length">
         <div class="slider-content">
@@ -38,52 +24,30 @@
       <!-- <div class="loading-container" v-show="!discList.length">
         <loading></loading>
       </div> -->
->>>>>>> recommend
     </div>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-=======
 // import Loading from 'base/loading/loading'
 import Slider from 'base/slider/slider'
->>>>>>> recommend
 import { getRecommend } from 'api/recommend'
 import { ERR_OK } from 'api/config'
 
 export default {
   data () {
     return {
-<<<<<<< HEAD
-      recommends: []
-    }
-  },
-  created () {
-    this._text()
-=======
       recommends: [],
       discList: []
     }
   },
   created () {
->>>>>>> recommend
     this._getRecommend()
   },
   methods: {
     _getRecommend () {
       getRecommend().then((res) => {
         if (res.code === ERR_OK) {
-<<<<<<< HEAD
-          this.recommends = res.data
-          console.log('cheng')
-        }
-      })
-    },
-    _text () {
-      console.log('text')
-    }
-=======
           this.recommends = res.data.slider
         }
       })
@@ -91,7 +55,6 @@ export default {
   },
   components: {
     Slider
->>>>>>> recommend
   }
 }
 </script>

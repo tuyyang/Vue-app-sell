@@ -3,18 +3,6 @@
     class="listview"
     :data="data"
     ref="listview"
-<<<<<<< HEAD
-    @scroll="scroll"
-    :data="data"
-    :probeType="probeType"
-    :listen-scroll="listenScroll"
-  >
-    <ul>
-      <li
-        class="list-group"
-        v-for="(group, index) in data"
-        :key="index"
-=======
     :listenScroll="listenScroll"
     @scroll="scroll"
   >
@@ -23,25 +11,17 @@
         v-for="(group, index) in data"
         :key="index"
         class="list-group"
->>>>>>> recommend
         ref="listGroup"
       >
         <h2 class="list-group-title">{{ group.title }}</h2>
         <ul>
           <li
-<<<<<<< HEAD
-=======
             @click="selectItem(item)"
->>>>>>> recommend
             class="list-group-item"
             v-for="(item, index) in group.items"
             :key="index"
           >
-<<<<<<< HEAD
-            <img v-lazy="item.avatar" class="avatar" />
-=======
             <img class="avatar" v-lazy="item.avatar" />
->>>>>>> recommend
             <span class="name">{{ item.name }}</span>
           </li>
         </ul>
@@ -58,39 +38,22 @@
           class="item"
           v-for="(item, index) in shortcutList"
           :key="index"
-<<<<<<< HEAD
-=======
           :data-index="index"
->>>>>>> recommend
           :class="{ current: currentIndex === index }"
         >
           {{ item }}
         </li>
       </ul>
     </div>
-<<<<<<< HEAD
-    <div v-show="!data.length" class="loading-container">
-      <loading></loading>
-    </div>
-=======
->>>>>>> recommend
   </scroll>
 </template>
 
 <script>
 import Scroll from 'base/scroll/scroll'
-<<<<<<< HEAD
-import Loading from 'base/loading/loading'
-import { getData } from 'common/js/dom'
-
-const TITLE_HEIGHT = 30
-const ANCHOR_HEIGHT = 18
-=======
 import { getData } from 'common/js/dom'
 
 const ANCHOR_HEIGHT = 18
 const TITLE_HEIGHT = 30
->>>>>>> recommend
 
 export default {
   data () {
@@ -108,26 +71,6 @@ export default {
       }
     }
   },
-<<<<<<< HEAD
-  data () {
-    return {
-      scrollY: -1,
-      currentIndex: 0
-    }
-  },
-  computed: {
-    shortcutList () {
-      return this.data.map((group) => {
-        return group.title.substr(0, 1)
-      })
-    }
-  },
-  created () {
-    this.probeType = 3
-    this.listenScroll = true
-    this.touch = {}
-    this.listHeight = {}
-=======
   created () {
     this.touch = {}
     this.listenScroll = true
@@ -140,44 +83,26 @@ export default {
         return group.title.substr(0, 1)
       })
     }
->>>>>>> recommend
   },
   methods: {
     selectItem (item) {
       this.$emit('select', item)
     },
     onShortcutTouchStart (e) {
-<<<<<<< HEAD
-      let anchorIndex = getData(e.target, 'index')
-      let firstTouch = e.touches[0]
-=======
       const anchorIndex = getData(e.target, 'index')
       const firstTouch = e.touches[0]
->>>>>>> recommend
       this.touch.y1 = firstTouch.pageY
       this.touch.anchorIndex = anchorIndex
 
       this._scrollTo(anchorIndex)
     },
     onShortcutTouchMove (e) {
-<<<<<<< HEAD
-      let firstTouch = e.touches[0]
-      this.touch.y2 = firstTouch.pageY
-      let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
-      let anchorIndex = parseInt(this.touch.anchorIndex) + delta
-
-      this._scrollTo(anchorIndex)
-    },
-    refresh () {
-      this.$refs.listview.refresh()
-=======
       const firstTouch = e.touches[0]
       this.touch.y2 = firstTouch.pageY
       const delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
       const anchorIndex = parseInt(this.touch.anchorIndex) + delta
 
       this._scrollTo(anchorIndex)
->>>>>>> recommend
     },
     scroll (pos) {
       this.scrollY = pos.y
@@ -207,11 +132,6 @@ export default {
     }
   },
   watch: {
-<<<<<<< HEAD
-    scrollY (newY) {
-      const listHeight = this.listHeight
-      // 当滚动到顶部，newY>0
-=======
     data () {
       setTimeout(() => {
         this._calculateHeight()
@@ -220,7 +140,6 @@ export default {
     scrollY (newY) {
       const listHeight = this.listHeight
       //当滚动到顶部 newY > 0
->>>>>>> recommend
       if (newY > 0) {
         this.currentIndex = 0
         return
@@ -229,22 +148,12 @@ export default {
       for (let i = 0; i < listHeight.length - 1; i++) {
         let height1 = listHeight[i]
         let height2 = listHeight[i + 1]
-<<<<<<< HEAD
-        if (-newY >= height1 && -newY < height2) {
-          this.currentIndex = i
-          this.diff = height2 + newY
-          return
-        }
-      }
-      // 当滚动到底部，且-newY大于最后一个元素的上限
-=======
         if (-newY > height1 && -newY < height2) {
           this.currentIndex = i
           return
         }
       }
       //当滚动到底部 且-newY大于最后一个元素的上限
->>>>>>> recommend
       this.currentIndex = listHeight.length - 2
     }
   },

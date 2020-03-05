@@ -16,13 +16,5 @@ export default new Vuex.Store({
   actions,
   getters,
   strict: debug,
-<<<<<<< HEAD
-<<<<<<< HEAD
   plugins: debug ? [createLogger()] : []
-=======
-  plugin: debug ? [createLogger()] : []
->>>>>>> singer
-=======
-  plugins: debug ? [createLogger()] : []
->>>>>>> recommend
 })
