@@ -1,9 +1,11 @@
 <template>
-  <div>搜索页面</div>
+  <div class="search" ref="search">
+    搜搜界面
+  </div>
 </template>
 
 <script>
+export default {}
 </script>
 
-<style>
-</style>
+<style lang='stylus' scoped></style>
