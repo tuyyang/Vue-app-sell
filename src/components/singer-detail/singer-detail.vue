@@ -5,7 +5,52 @@
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+import { getSingerDetail } from 'api/singer'
+import { ERR_OK } from 'api/config'
+import { createSong, isValidMusic, processSongsUrl } from 'common/js/song'
+
+export default {
+  data () {
+    return {
+      song: []
+    }
+  },
+  created () {
+    this._getDetail()
+  },
+  methods: {
+    _getDetail () {
+      if (!this.singer.id) {
+        this.$router.push('/singer')
+        return
+      }
+      getSingerDetail(this.singer.id).then((res) => {
+        if (res.code === ERR_OK) {
+          processSongsUrl(this._normalizeSongs(res.data.list)).then((songs) => {
+            this.songs = songs
+            console.log(this.songs)
+          })
+        }
+      })
+    },
+    _normalizeSongs (list) {
+      const ret = []
+      list.forEach((item) => {
+        const { musicData } = item
+        if (isValidMusic(musicData)) {
+          ret.push(createSong(musicData))
+        }
+      })
+      return ret
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'singer'
+    ])
+  }
+}
 </script>
 
 <style lang='stylus' scoped>
