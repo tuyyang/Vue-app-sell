@@ -112,7 +112,7 @@ export default {
         blur = Math.min(50 * percent, 50)
       }
 
-      this.$refs.filter.style[backdrop] = `blur(${blur})`
+      this.$refs.filter.style[backdrop] = `blur(${blur}px)`
       if (newY < this.minTranslateY) {
         zIndex = 10
         this.$refs.bgImage.style.paddingTop = 0
