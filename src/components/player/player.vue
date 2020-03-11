@@ -21,7 +21,7 @@
         <div class="middle">
           <div class="middle-l">
             <div class="cd-wrapper" ref="cdWrapper">
-              <div class="cd">
+              <div class="cd" :class="cdCls">
                 <img class="image" :src="currentSong.image" />
               </div>
             </div>
@@ -32,14 +32,14 @@
             <div class="icon i-left">
               <i class="icon-sequence"></i>
             </div>
-            <div class="icon i-left">
-              <i class="icon-prev"></i>
+            <div class="icon i-left" :class="disableCls">
+              <i class="icon-prev" @click="prev"></i>
             </div>
-            <div class="icon i-center">
-              <i class="icon-play"></i>
+            <div class="icon i-center" :class="disableCls">
+              <i :class="playIcon" @click="togglePlaying"></i>
             </div>
-            <div class="icon i-right">
-              <i class="icon-next"></i>
+            <div class="icon i-right" :class="disableCls">
+              <i class="icon-next" @click="next"></i>
             </div>
             <div class="icon i-right">
               <i class="icon icon-not-favorite"></i>
@@ -51,18 +51,33 @@
     <transition name="mini">
       <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
-          <img width="40" height="40" :src="currentSong.image" />
+          <div class="imgWrapper" ref="miniWrapper">
+            <img
+              width="40"
+              height="40"
+              :src="currentSong.image"
+              :class="cdCls"
+            />
+          </div>
         </div>
         <div class="text">
           <h2 class="name" v-html="currentSong.name"></h2>
           <p class="desc" v-html="currentSong.singer"></p>
         </div>
-        <div class="control"></div>
+        <div class="control">
+          <i :class="miniIcon" @click.stop="togglePlaying"></i>
+        </div>
         <div class="control">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <audio
+      ref="audio"
+      :src="currentSong.url"
+      @canplay="ready"
+      @error="error"
+    ></audio>
   </div>
 </template>
 
@@ -74,11 +89,30 @@ import animations from 'create-keyframe-animation'
 const transform = prefixStyle('transform')
 
 export default {
+  data () {
+    return {
+      songReady: false
+    }
+  },
   computed: {
+    cdCls () {
+      return this.playing ? 'play' : 'play pause'
+    },
+    playIcon () {
+      return this.playing ? 'icon-pause' : 'icon-play'
+    },
+    miniIcon () {
+      return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+    },
+    disableCls () {
+      return this.playing ? '' : 'disable'
+    },
     ...mapGetters([
       'fullScreen',
       'playlist',
-      'currentSong'
+      'currentSong',
+      'currentIndex',
+      'playing'
     ])
   },
   methods: {
@@ -126,6 +160,49 @@ export default {
       this.$refs.cdWrapper.style.transition = ''
       this.$refs.cdWrapper.style[transform] = ''
     },
+    togglePlaying () {
+      const songReady = this.songReady
+      if (!songReady) {
+        return
+      }
+      this.setPlayingState(!this.playing)
+    },
+    next () {
+      const songReady = this.songReady
+      if (!songReady) {
+        return
+      }
+      let index = this.currentIndex + 1
+      if (index === this.playlist.length) {
+        index = 0
+      }
+      this.setCurrentIndex(index)
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+      this.songReady = false
+    },
+    prev () {
+      const songReady = this.songReady
+      if (!songReady) {
+        return
+      }
+      let index = this.currentIndex - 1
+      if (index === -1) {
+        index = this.playlist.length - 1
+      }
+      this.setCurrentIndex(index)
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+      this.songReady = false
+    },
+    ready () {
+      this.songReady = true
+    },
+    error () {
+      this.songReady = true
+    },
     _getPosAndScale () {
       const targetWidth = 40
       const paddingLeft = 40
@@ -142,8 +219,23 @@ export default {
       }
     },
     ...mapMutations({
-      setFullScreen: 'SET_FULL_SCREEN'
+      setFullScreen: 'SET_FULL_SCREEN',
+      setPlayingState: 'SET_PLAYING_STATE',
+      setCurrentIndex: 'SET_CURRENT_INDEX'
     })
+  },
+  watch: {
+    currentSong () {
+      this.$nextTick(() => {
+        this.$refs.audio.play()
+      })
+    },
+    playing (newPlaying) {
+      const audio = this.$refs.audio
+      this.$nextTick(() => {
+        newPlaying ? audio.play() : audio.pause()
+      })
+    }
   }
 }
 </script>
@@ -222,6 +314,10 @@ export default {
               width 100%
               height 100%
               border-radius 50%
+              &.play
+                animation rotate 20s linear infinite
+              &.pause
+                animation-play-state paused
             .image
               position absolute
               left 0
@@ -241,6 +337,8 @@ export default {
           .icon
             flex 1
             color $color-theme
+            &.disable
+              color $color-theme-d
             i
               font-size 30px
           .i-left
@@ -260,6 +358,10 @@ export default {
           transition all 0.4s cubic-bezier(0.86,0.18,0.82,1.32)
       &.normal-enter, &.normal-leave-to
         opacity 0
+        .top
+          transform translate3d(0,-100px,0)
+        .bottom
+          transform translate3d(0,100px,0)
     .mini-player
       display flex
       align-items center
@@ -279,6 +381,15 @@ export default {
         width 40px
         height 40px
         padding 0 10px 0 20px
+        .imgWrapper
+          height 100%
+          width 100%
+          img
+            border-radius 50%
+            &.play
+              animation rotate 10s linear infinite
+            &.pause
+              animation-play-state paused
       .text
         display flex
         flex-direction column
@@ -307,4 +418,9 @@ export default {
           position absolute
           left 0
           top 0
+  @keyframes rotate
+    0%
+      transform rotate(0)
+    100%
+      transform rotate(360deg)
 </style>
