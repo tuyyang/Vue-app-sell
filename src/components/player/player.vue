@@ -28,6 +28,16 @@
           </div>
         </div>
         <div class="bottom">
+          <div class="progress-wrapper">
+            <span class="time time-l">{{ format(currentTime) }}</span>
+            <div class="progress-bar-wrapper">
+              <progress-bar
+                :percent="percent"
+                @percentChange="onProgressBarChange"
+              ></progress-bar>
+            </div>
+            <span class="time time-r">{{ format(currentSong.duration) }}</span>
+          </div>
           <div class="operators">
             <div class="icon i-left">
               <i class="icon-sequence"></i>
@@ -72,16 +82,25 @@
         </div>
       </div>
     </transition>
-    <audio
+    <!-- <audio
       ref="audio"
       :src="currentSong.url"
       @canplay="ready"
       @error="error"
+      @timeupdate="updateTime"
+    ></audio> -->
+    <audio
+      src="./Lana Del Rey - Old Money .mp3"
+      ref="audio"
+      @canplay="ready"
+      @error="error"
+      @timeupdate="updateTime"
     ></audio>
   </div>
 </template>
 
 <script>
+import ProgressBar from 'base/progress-bar/progress-bar'
 import { mapGetters, mapMutations } from 'vuex'
 import { prefixStyle } from 'common/js/dom'
 import animations from 'create-keyframe-animation'
@@ -91,7 +110,8 @@ const transform = prefixStyle('transform')
 export default {
   data () {
     return {
-      songReady: false
+      songReady: false,
+      currentTime: 0
     }
   },
   computed: {
@@ -106,6 +126,9 @@ export default {
     },
     disableCls () {
       return this.playing ? '' : 'disable'
+    },
+    percent () {
+      return this.currentTime / this.currentSong.duration
     },
     ...mapGetters([
       'fullScreen',
@@ -203,6 +226,29 @@ export default {
     error () {
       this.songReady = true
     },
+    updateTime (e) {
+      this.currentTime = e.target.currentTime
+    },
+    format (interval) {
+      interval = interval | 0
+      const minute = interval / 60 | 0
+      const second = this._pad(interval % 60)
+      return `${minute}:${second}`
+    },
+    onProgressBarChange (percent) {
+      this.$refs.audio.currentTime = this.currentSong.duration * percent
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+    },
+    _pad (num, n = 2) {
+      let len = num.toString().length
+      while (len < n) {
+        num = '0' + num
+        len++
+      }
+      return num
+    },
     _getPosAndScale () {
       const targetWidth = 40
       const paddingLeft = 40
@@ -236,6 +282,9 @@ export default {
         newPlaying ? audio.play() : audio.pause()
       })
     }
+  },
+  components: {
+    ProgressBar
   }
 }
 </script>
@@ -331,6 +380,24 @@ export default {
         position absolute
         bottom 50px
         width 100%
+        .progress-wrapper
+          display flex
+          align-items center
+          width 80%
+          margin 0 auto
+          padding 10px 0
+          .time
+            color $color-text
+            font-size $font-size-small
+            flex 0 0 30px
+            line-height 30px
+            width 30px
+            &.time-l
+              text-align left
+            &.time-r
+              text-align right
+          .progress-bar-wrapper
+            flex 1
         .operators
           display flex
           align-items center
