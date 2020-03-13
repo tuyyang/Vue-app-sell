@@ -8,6 +8,7 @@ const Singer = () => import('components/singer/singer')
 const Rank = () => import('components/rank/rank')
 const Search = () => import('components/search/search')
 const SingerDetail = () => import('components/singer-detail/singer-detail')
+const Disc = () => import('components/disc/disc')
 
 const routes = [
   {
@@ -17,7 +18,13 @@ const routes = [
   {
     path: '/recommend',
     name: 'Recommend',
-    component: Recommend
+    component: Recommend,
+    children: [
+      {
+        path: ':id',
+        component: Disc
+      }
+    ]
   },
   {
     path: '/singer',
