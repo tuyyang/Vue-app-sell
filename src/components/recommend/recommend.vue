@@ -17,7 +17,7 @@
           <h1 class="list-title">热门歌单推荐</h1>
           <ul>
             <li
-              @click="selectItem"
+              @click="selectItem(item)"
               class="item"
               v-for="(item, index) in discList"
               :key="index"
