@@ -1,5 +1,10 @@
 <template>
-  <div class="suggest">
+  <scroll
+    class="suggest"
+    :data="result"
+    :pullup="pullup"
+    @scrollToEnd="searchMore"
+  >
     <ul class="suggest-list">
       <li class="suggest-item" v-for="(item, index) in result" :key="index">
         <div class="icon">
@@ -9,16 +14,20 @@
           <p class="text" v-html="getDisplayName(item)"></p>
         </div>
       </li>
+      <loading v-show="hasMore" title=""></loading>
     </ul>
-  </div>
+  </scroll>
 </template>
 
 <script>
+import Scroll from 'base/scroll/scroll'
+import Loading from 'base/loading/loading'
 import { search } from 'api/search'
 import { ERR_OK } from 'api/config'
 import { createSong, isValidMusic } from 'common/js/song'
 
 const TYPE_SINGER = 'singer'
+const perpage = 20
 
 export default {
   props: {
@@ -34,7 +43,9 @@ export default {
   data () {
     return {
       page: 1,
-      result: []
+      result: [],
+      pullup: true,
+      hasMore: true
     }
   },
   methods: {
@@ -53,10 +64,23 @@ export default {
       }
     },
     search () {
-      search(this.query, this.page, this.showSinger).then((res) => {
+      this.hasMore = true
+      search(this.query, this.page, this.showSinger, perpage).then((res) => {
         if (res === ERR_OK) {
           this.result = this._getResult(res.data)
-          console.log(this.result)
+          this._checkMore(res.data)
+        }
+      })
+    },
+    searchMore () {
+      if (!this.hasMore) {
+        return
+      }
+      this.page++
+      search(this.query, this.page, this.showSinger, perpage).then((res) => {
+        if (res === ERR_OK) {
+          this.result = this.result.concat(this._getResult(res.data))
+          this._checkMore(res.data)
         }
       })
     },
@@ -78,12 +102,22 @@ export default {
         }
       })
       return ret
+    },
+    _checkMore (data) {
+      const song = data.song
+      if (!song.list.length || (song.curnum + (song.curpage - 1) * perpage) >= song.totalnum) {
+        this.hasMore = false
+      }
     }
   },
   watch: {
     query () {
       this.search()
     }
+  },
+  components: {
+    Scroll,
+    Loading
   }
 }
 </script>
