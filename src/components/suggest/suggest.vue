@@ -1,5 +1,6 @@
 <template>
   <scroll
+    ref="suggest"
     class="suggest"
     :data="result"
     :pullup="pullup"
@@ -64,7 +65,9 @@ export default {
       }
     },
     search () {
+      this.page = 1
       this.hasMore = true
+      this.$refs.suggest.scrollTo(0, 0)
       search(this.query, this.page, this.showSinger, perpage).then((res) => {
         if (res === ERR_OK) {
           this.result = this._getResult(res.data)
